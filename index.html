@@ -1,41 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Live Server</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Server</title>
+  </head>
+  <body>
 
-  <h3>
-    Temperature: <span id="temperature"></span>
-  </h3>
-  <h3>
-    Humidity: <span id="humidity"></span>
-  </h3>
+    <h1>Client</h1>
+    <h3 id="data"></h3>
 
-  <script>
-    let socket = new WebSocket("ws://192.168.86.43:8080/ws")
-    console.log("Attempting Websocket Connection")
+    <script>
+      
+      let socket = new WebSocket("ws://192.168.86.43:8080/client");
+      console.log("Attempting Websocket Connection");
 
-    socket.onopen = () => {
-      console.log("Successfully Connected")
-      socket.send("FE")
-    }
+      socket.onopen =
+        () => {
+          console.log("Client Successfully Connected");
+          socket.send("FE");
+        };
 
-    socket.onmessage = (msg) => {
-      console.log("Hello console!")
-      console.log(msg.data)
-    }
+      socket.onmessage =
+        (msg) => {
+          console.log("Hello console!");
+          console.log(msg);
+          document.getElementById("data").innerText = msg.data;
+        };
 
-    socket.onclose = (event) => {
-      console.log("Socket Closed Connection: ", event)
-    }
+      socket.onclose =
+        (event) => {
+          console.log("Socket Closed Connection: ", event);
+        };
 
-    socket.onerror = (error) => {
-      console.log("Socket Error: ", error)
-    }
-  </script>
+      socket.onerror =
+        (error) => {
+          console.log("Socket Error: ", error);
+        };
 
-</body>
+    </script>
+
+  </body>
 </html>
